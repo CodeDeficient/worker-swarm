@@ -1,0 +1,229 @@
+services:
+  wt-1:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-1
+    ports:
+      - '8081:8080'
+    volumes:
+      - ./myproject-wt-1:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=1
+      # Auto-approve all tools for headless worker operations
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  wt-2:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-2
+    ports:
+      - '8082:8080'
+    volumes:
+      - ./myproject-wt-2:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=2
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  wt-3:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-3
+    ports:
+      - '8083:8080'
+    volumes:
+      - ./myproject-wt-3:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=3
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  wt-4:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-4
+    ports:
+      - '8084:8080'
+    volumes:
+      - ./myproject-wt-4:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=4
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  wt-5:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-5
+    ports:
+      - '8085:8080'
+    volumes:
+      - ./myproject-wt-5:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=5
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  wt-6:
+    build:
+      context: .
+      dockerfile: Dockerfile.opencode
+    container_name: myproject-agent-wt-6
+    ports:
+      - '8086:8080'
+    volumes:
+      - ./myproject-wt-6:/app
+      - ~/.config/opencode/skills:/home/node/.config/opencode/skills:cached
+      - ~/.claude/skills:/home/node/.claude/skills:cached
+      - ~/.agents/skills:/home/node/.agents/skills:cached
+    environment:
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - OPENCODE_API_KEY=${OPENCODE_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - WORKER_ID=6
+      - OPENCODE_CONFIG_CONTENT={"permission":{"read":{"*":"allow"},"write":{"*":"allow"},"bash":{"*":"allow"},"edit":{"*":"allow"},"external_directory":{"*":"allow"},"glob":{"*":"allow"},"grep":{"*":"allow"},"list":{"*":"allow"}}}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '4.0'
+        reservations:
+          memory: 8G
+          cpus: '2.0'
+    shm_size: 8gb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

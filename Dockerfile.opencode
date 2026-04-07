@@ -1,0 +1,28 @@
+# Dockerfile.opencode
+# AI agent container for worker swarm — serves the agent CLI via HTTP
+
+FROM node:20-bookworm
+
+# Install opencode CLI
+RUN npm install -g @anthropic-ai/opencode@latest
+
+# Install curl for health checks
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -s /bin/bash node
+USER node
+
+# Set up config and data directories
+RUN mkdir -p /home/node/.config/opencode \
+    && mkdir -p /home/node/.local/share/opencode
+
+# Set working directory
+WORKDIR /app
+
+# Expose the agent server port
+EXPOSE 8080
+
+# Start the agent in server mode
+CMD ["opencode", "serve", "--port", "8080"]

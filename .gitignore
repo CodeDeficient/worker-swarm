@@ -1,0 +1,23 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Worker clone directories (created by init-worker-clones.sh)
+*-wt-*/
+
+# Worker logs
+/tmp/w*.log
+
+# Reports and artifacts
+docker/reports/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
