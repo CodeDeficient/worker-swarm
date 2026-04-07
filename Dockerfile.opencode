@@ -4,7 +4,7 @@
 FROM node:20-bookworm
 
 # Install opencode CLI
-RUN npm install -g @anthropic-ai/opencode@latest
+RUN npm install -g opencode@latest
 
 # Install curl for health checks
 RUN apt-get update && apt-get install -y --no-install-recommends curl \

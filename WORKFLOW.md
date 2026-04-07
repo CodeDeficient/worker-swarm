@@ -82,7 +82,7 @@ This workflow enables you to:
 
 | Component             | Purpose                                                                                          |
 | --------------------- | ------------------------------------------------------------------------------------------------ |
-| **Host machine**      | Your dev machine. Runs the orchestrating agent (opencode/Claude/etc). Has the main git repo.     |
+| **Host machine**      | Your dev machine. Runs the orchestrating agent (opencode or similar). Has the main git repo.     |
 | **Worker containers** | N Docker containers, each running an AI agent server (e.g., `opencode serve`).                   |
 | **Worker clones**     | Each container has its own git clone at a separate path on the host, mounted into the container. |
 | **Git remotes**       | Worker clones are added as git remotes on the main repo for easy merging.                        |
@@ -149,7 +149,7 @@ Create a Dockerfile that installs your AI agent CLI and sets up the runtime envi
 FROM node:20-bookworm
 
 # Install opencode CLI
-RUN npm install -g @anthropic-ai/opencode@latest
+RUN npm install -g opencode@latest
 
 # Create non-root user
 RUN useradd -m -s /bin/bash node
@@ -746,35 +746,41 @@ With 6 workers processing 8-10 files each over 20-30 minutes:
 | Orchestrator overhead | 50K | 100K | 200K |
 | **Grand total per round** | ~1.1M tokens | ~2.4M tokens | ~4.1M tokens |
 
-**Cost per round by model:**
+**Cost per round (MiniMax-M2.7):**
 
-| Model | Input ($/1M) | Output ($/1M) | Est. Cost/Round |
-|-------|-------------|--------------|-----------------|
-| MiniMax-M2.7 | $0.30 | $0.60 | $0.50-1.50 |
-| Gemini Flash | $0.10 | $0.40 | $0.20-0.80 |
-| GPT-4o-mini | $0.15 | $0.60 | $0.30-1.00 |
-| Claude Haiku | $0.25 | $1.25 | $0.50-2.00 |
-| GPT-4o | $2.50 | $10.00 | $5.00-15.00 |
-| Claude Sonnet | $3.00 | $15.00 | $7.00-25.00 |
+| Metric | Low End | Typical | High End |
+|--------|---------|---------|----------|
+| Total input (6 workers) | 900K | 1.8M | 3.0M |
+| Total output (6 workers) | 180K | 480K | 900K |
+| **API cost per round** | **~$0.50** | **~$1.00** | **~$1.50** |
 
-**Monthly projection (daily runs, ~30 rounds/month):**
+**Monthly subscription costs (our actual stack):**
 
-| Setup | Workers | Rounds/Day | Est. Monthly Cost |
-|-------|---------|------------|-------------------|
-| Budget (MiniMax) | 6 | 3 | $15-45 |
-| Balanced (Mixed) | 6 | 3 | $25-75 |
-| Quality (Claude) | 6 | 3 | $200-750 |
+| Service | Plan | Monthly | Notes |
+|---------|------|---------|-------|
+| Z.ai | Coding Plan | $30 | GLM-5.1 / GLM-5-Turbo for orchestrator |
+| MiniMax.io | Standard Plan | $20 | M2.7 for workers |
+| **Total (standard)** | | **$50/month** | ~$1.67/day for full swarm |
+| MiniMax.io | **Highspeed Plan** | $40 | Upgrades M2.7 to highspeed — ~double worker output per round |
+| **Total (highspeed)** | | **$70/month** | Double throughput for +$20/month |
+
+The highspeed upgrade is the best ROI: going from ~40-50 files/round to ~80-100 files/round cuts round count in half for just $20 more. If you're running multiple rounds per day, it pays for itself in time saved.
+
+**Monthly throughput (daily runs, ~30 rounds/month):**
+
+| Plan | Workers | Rounds/Day | Files/Day | Monthly Cost |
+|------|---------|------------|-----------|--------------|
+| Standard (MiniMax) | 6 | 3 | ~120-150 | $50 |
+| Highspeed (MiniMax) | 6 | 3 | ~240-300 | $70 |
 
 ### Model Selection
 
 | Model           | Provider      | Speed     | Quality   | Cost     | Notes                     |
 |-----------------|---------------|-----------|-----------|----------|---------------------------|
-| GLM-5.1         | Z.ai          | Fast      | Excellent | Low      | Orchestrator (default)    |
-| GLM-5-Turbo     | Z.ai          | Very fast | Good      | Low      | Orchestrator (non-peak)   |
-| MiniMax-M2.7    | MiniMax.io    | Fast      | Good      | Low      | Best for parallel work    |
-| GPT-4o          | OpenAI        | Medium    | Excellent | High     | Use for complex tasks     |
-| Claude Sonnet   | Anthropic     | Medium    | Excellent | High     | Use for complex tasks     |
-| Gemini Flash    | Google        | Very fast | Good      | Very low | Good for simple utilities |
+| GLM-5.1         | Z.ai          | Fast      | Excellent | $30/mo  | Orchestrator (default)   |
+| GLM-5-Turbo     | Z.ai          | Very fast | Good      | $30/mo  | Orchestrator (non-peak)   |
+| MiniMax-M2.7    | MiniMax.io    | Fast      | Good      | $20/mo  | Workers (standard plan)   |
+| MiniMax-M2.7 HS | MiniMax.io    | Very fast | Good      | $40/mo  | Workers (highspeed, ~2x output) |
 
 ### Time Investment
 
@@ -907,8 +913,8 @@ Key tools that make this possible:
 - [OpenCode](https://opencode.ai) — AI coding agent with `serve`/`attach` mode
 - [Docker](https://docker.com) — Container isolation
 - [Jest](https://jestjs.io) — Test framework (though any framework works)
-- [GLM-5.1 / GLM-5-Turbo](https://z.ai) — Orchestrator models via Z.ai
-- [MiniMax-M2.7](https://minimax.io) — Fast, affordable model for parallel work
+- [GLM-5.1 / GLM-5-Turbo](https://z.ai) — Orchestrator models via Z.ai Coding Plan ($30/mo)
+- [MiniMax-M2.7](https://minimax.io) — Worker model via MiniMax.io ($20/mo standard, $40/mo highspeed)
 
 ---
 
