@@ -144,16 +144,17 @@ myproject/
 | **Orchestrator** | GLM-5.1 / GLM-5-Turbo | Z.ai | Primary / non-peak fallback |
 | **Workers** | MiniMax-M2.7 | MiniMax.io | Fast, affordable for parallel work |
 
-## Cost Estimate
+## Cost
 
-With 6 workers processing 8-10 files per round:
+Both Z.ai and MiniMax.io are **flat monthly subscriptions** — unlimited usage. The cost doesn't change with more rounds.
 
-| Metric | Value |
-|--------|-------|
-| Tokens per round | ~1.1M–4.1M total |
-| Cost per round | $0.20–$3.00 (model dependent) |
-| Cost per test file | ~$0.03–$0.10 |
-| Monthly (30 rounds) | $15–$75 (budget setup) |
+| Plan | Monthly | Notes |
+|------|---------|-------|
+| Z.ai Coding Plan | $30 | GLM-5.1 / GLM-5-Turbo for orchestrator |
+| MiniMax.io Standard | $20 | M2.7 for workers |
+| **Total** | **$50/mo** | ~$1.67/day, flat regardless of rounds |
+
+**Throughput:** ~40-60 files/round × 3 rounds/day × 30 days = ~3,600-5,400 files/month for $50 flat. MiniMax's highspeed plan ($40/mo instead of $20) roughly doubles worker output per round.
 
 ## Full Documentation
 

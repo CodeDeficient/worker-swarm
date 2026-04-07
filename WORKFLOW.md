@@ -721,57 +721,26 @@ ls -la /home/user/projects/myproject-wt-1/
 
 ## Cost Considerations
 
-### Token Usage Per Round
+### Cost
 
-With 6 workers processing 8-10 files each over 20-30 minutes:
+Both Z.ai and MiniMax.io use **flat monthly subscriptions** with unlimited token usage. The cost is the same whether you run 1 round or 100 rounds — more rounds just means more value from the same fixed spend.
 
-| Metric                      | Estimated Cost                  |
-| --------------------------- | ------------------------------- |
-| Input tokens per worker     | ~200-500K tokens                |
-| Output tokens per worker    | ~50-150K tokens                 |
-| Total per round (6 workers) | ~1.5-4M input + 300-900K output |
-| API cost per round          | ~$0.50-3.00 (model dependent)   |
-| **Cost per test file**      | **~$0.03-0.10**                 |
+**Our monthly stack:**
 
-### Cost Calculator
+| Service | Plan | Monthly |
+|---------|------|---------|
+| Z.ai | Coding Plan | $30 |
+| MiniMax.io | Standard Plan | $20 |
+| **Total** | | **$50/month (flat, unlimited)** |
 
-**Per-round estimate (6 workers, 8-10 files each):**
+Because the cost is fixed, the metric that matters is **throughput** — how much work you can extract from the subscription each month:
 
-| Metric | Low End | Typical | High End |
-|--------|---------|---------|----------|
-| Input tokens per worker | 150K | 300K | 500K |
-| Output tokens per worker | 30K | 80K | 150K |
-| **Total input (6 workers)** | 900K | 1.8M | 3.0M |
-| **Total output (6 workers)** | 180K | 480K | 900K |
-| Orchestrator overhead | 50K | 100K | 200K |
-| **Grand total per round** | ~1.1M tokens | ~2.4M tokens | ~4.1M tokens |
+| Plan | Workers | Files/round | Rounds/day | Est. files/month |
+|------|---------|-------------|------------|------------------|
+| Standard ($50/mo) | 6 | ~40–60 | 3 | ~3,600–5,400 |
+| Highspeed ($70/mo) | 6 | ~80–100 | 3 | ~7,200–9,000 |
 
-**Cost per round (MiniMax-M2.7):**
-
-| Metric | Low End | Typical | High End |
-|--------|---------|---------|----------|
-| Total input (6 workers) | 900K | 1.8M | 3.0M |
-| Total output (6 workers) | 180K | 480K | 900K |
-| **API cost per round** | **~$0.50** | **~$1.00** | **~$1.50** |
-
-**Monthly subscription costs (our actual stack):**
-
-| Service | Plan | Monthly | Notes |
-|---------|------|---------|-------|
-| Z.ai | Coding Plan | $30 | GLM-5.1 / GLM-5-Turbo for orchestrator |
-| MiniMax.io | Standard Plan | $20 | M2.7 for workers |
-| **Total (standard)** | | **$50/month** | ~$1.67/day for full swarm |
-| MiniMax.io | **Highspeed Plan** | $40 | Upgrades M2.7 to highspeed — ~double worker output per round |
-| **Total (highspeed)** | | **$70/month** | Double throughput for +$20/month |
-
-The highspeed upgrade is the best ROI: going from ~40-50 files/round to ~80-100 files/round cuts round count in half for just $20 more. If you're running multiple rounds per day, it pays for itself in time saved.
-
-**Monthly throughput (daily runs, ~30 rounds/month):**
-
-| Plan | Workers | Rounds/Day | Files/Day | Monthly Cost |
-|------|---------|------------|-----------|--------------|
-| Standard (MiniMax) | 6 | 3 | ~120-150 | $50 |
-| Highspeed (MiniMax) | 6 | 3 | ~240-300 | $70 |
+The MiniMax highspeed upgrade ($20 extra) roughly doubles worker output per round. If you're running multiple rounds daily, the throughput gain far outweighs the additional cost.
 
 ### Model Selection
 
