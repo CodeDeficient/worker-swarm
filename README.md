@@ -1,6 +1,14 @@
 # Worker Swarm
 
-> Orchestrate multiple AI coding agents in Docker containers to work on isolated git branches simultaneously, then merge results. Turn 20 minutes of AI agent work into 4-8 hours of autonomous parallel output.
+**Run 6–15+ parallel AI coding agents safely using Docker + isolated git branches.**
+
+Turn 20 minutes into 4-8 hours of autonomous output. Designed for large codebases (100k+ LOC) and real daily use.
+
+- **+2.5% test coverage** in ~20 minutes
+- **+5% test coverage** in 30 minutes
+- **500–800+ commits per day** on a mid-tier rig
+
+> This setup uses separate clones on separate branches instead of git worktrees for better isolation and simpler tooling.
 
 ## At a Glance
 
